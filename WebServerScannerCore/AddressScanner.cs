@@ -34,8 +34,10 @@ namespace WebServerScannerCore
 			}
 
 			scanCount = 0;
-			var gateway = "192.168.0.1";//GetGatewayAddress();
-			int port = 80;
+
+            var gateway = "192.168.1.1";
+
+            int port = 80;
 			var addressPrefix = gateway.Split('.');
 
 			for (int i = 2; i <= 255; i++)
@@ -65,21 +67,5 @@ namespace WebServerScannerCore
 
 		}
 
-		private string GetGatewayAddress()
-		{
-			foreach (var router in NetworkInterface.GetAllNetworkInterfaces())
-			{
-				if (router.OperationalStatus == OperationalStatus.Up)
-				{
-					var addresses = router.GetIPProperties().GatewayAddresses.Select(a => a.Address).ToList();
-					foreach (var address in addresses)
-					{
-						return address.ToString();
-					}
-				}
-			}
-			return null;
-		}
- 
-	}
+    }
 }
