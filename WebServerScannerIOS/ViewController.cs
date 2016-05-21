@@ -29,7 +29,7 @@ namespace WebServerScannerIOS
 			_addressTable.Source = _dataSource;
 
 			_refreshButton.TouchUpInside += RefreshDataSource;
-			_dataSource.TableViewSourceChanged += UpdateTableView;
+			_dataSource.AddressSourceChanged += UpdateTableView;
 			this.Add (_refreshButton);
 			this.Add (_addressTable);
 

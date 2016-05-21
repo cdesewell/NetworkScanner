@@ -6,7 +6,7 @@ using Android.Content;
 
 namespace WebServerScannerAndroid
 {
-	[Activity (Label = "WebServerScanner Android", MainLauncher = true, Icon = "@mipmap/icon")]
+	[Activity (Label = "WebServerScanner", MainLauncher = true, Icon = "@mipmap/icon")]
 	public class MainActivity : Activity
 	{
 
@@ -24,8 +24,9 @@ namespace WebServerScannerAndroid
 			_adapter = new AddressArrayAdapter (this);
 			_addressListView.Adapter = _adapter;
 			_addressListView.ItemClick += LaunchBrowser;
+            _adapter.AddressAdapterChanged += ListViewUpdated;
 
-			var button = FindViewById<Button> (Resource.Id.refreshButton);
+            var button = FindViewById<Button> (Resource.Id.refreshButton);
 			button.Click += RefreshListView;
 		}
 	
@@ -41,7 +42,16 @@ namespace WebServerScannerAndroid
 			var intent = new Intent (Intent.ActionView, uri);
 			StartActivity (intent);
 		}
-	}
+
+        private void ListViewUpdated(object sender, EventArgs args)
+        {
+            RunOnUiThread(() =>
+            {
+                _adapter.NotifyDataSetChanged();
+            });
+        }
+
+    }
 }
 
 

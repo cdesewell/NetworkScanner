@@ -10,12 +10,12 @@ namespace WebServerScannerIOS
 	{
 		AddressScanner _radar;
 
-		public event EventHandler TableViewSourceChanged;
+		public event EventHandler AddressSourceChanged;
 
 		public AddressTableViewSource ()
 		{
 			_radar = new AddressScanner ();
-			_radar.NewEndpointFound += TriggerTableViewSourceChangedEvent;
+			_radar.NewEndpointFound += AddressListChanged;
 		}
 
 		public void RefreshTableViewSource()
@@ -23,9 +23,9 @@ namespace WebServerScannerIOS
 			_radar.Scan ();
 		}
 
-		private void TriggerTableViewSourceChangedEvent(object sender, EventArgs args)
+		private void AddressListChanged(object sender, EventArgs args)
 		{
-			TableViewSourceChanged (this, EventArgs.Empty);
+			AddressSourceChanged (this, EventArgs.Empty);
 		}
 
 		public override nint RowsInSection (UITableView tableview, nint section)

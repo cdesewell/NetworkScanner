@@ -11,12 +11,13 @@ namespace WebServerScannerAndroid
 	{
 		AddressScanner _radar;
 		Activity _activity;
+        public event EventHandler AddressAdapterChanged;
 
-		public AddressArrayAdapter (Activity activity)
+        public AddressArrayAdapter (Activity activity)
 		{
 			_activity = activity;
 			_radar = new AddressScanner ();
-			_radar.NewEndpointFound += TriggerListArrayChangedEvent;
+			_radar.NewEndpointFound += AddressListChanged;
 		}
 
 		public override int Count {
@@ -36,6 +37,7 @@ namespace WebServerScannerAndroid
 			var addressView = _activity.LayoutInflater.Inflate (Resource.Layout.AddressListItem,parent,false);
 			var textView = addressView.FindViewById<TextView> (Resource.Id.addressText);
 			textView.Text = _radar.Addresses [position];
+            
 			return addressView;
 		}
 
@@ -44,11 +46,10 @@ namespace WebServerScannerAndroid
 			_radar.Scan ();
 		}
 
-		private void TriggerListArrayChangedEvent(object sender, EventArgs args)
+		private void AddressListChanged(object sender, EventArgs args)
 		{
-			this.NotifyDataSetChanged ();
-		}
-			
+            AddressAdapterChanged(this, EventArgs.Empty);
+        }
 	}
 }
 
